@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claim Free Nitro - 4-Level CAPTCHA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        input, button {
+            width: 80%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        input {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #claimButton button {
+            background: #28a745;
+        }
+        #claimButton button:hover {
+            background: #218838;
+        }
+        .captcha-box {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            user-select: none; /* Prevent text selection */
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+        }
+    </style>
+    <script>
+        function generateCaptcha() {
+            var captchaText = Math.random().toString(36).substring(2, 8);
+            document.getElementById("captchaText").innerText = captchaText;
+
+            var num1 = Math.floor(Math.random() * 10) + 1;
+            var num2 = Math.floor(Math.random() * 10) + 1;
+            document.getElementById("mathQuestion").innerText = `${num1} + ${num2} = ?`;
+            document.getElementById("mathAnswer").dataset.correct = num1 + num2;
+
+            var caseCaptcha = Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById("caseCaptchaText").innerText = caseCaptcha;
+
+            document.getElementById("sliderCaptcha").value = 0;
+        }
+
+        function validateCaptcha() {
+            var enteredValue = document.getElementById("captchaInput").value;
+            var actualCaptcha = document.getElementById("captchaText").innerText;
+            var enteredMathAnswer = document.getElementById("mathAnswer").value;
+            var correctMathAnswer = document.getElementById("mathAnswer").dataset.correct;
+            var enteredCaseCaptcha = document.getElementById("caseCaptchaInput").value;
+            var actualCaseCaptcha = document.getElementById("caseCaptchaText").innerText;
+            var sliderValue = document.getElementById("sliderCaptcha").value;
+
+            if (enteredValue === actualCaptcha && enteredMathAnswer == correctMathAnswer &&
+                enteredCaseCaptcha === actualCaseCaptcha && sliderValue >= 45 && sliderValue <= 55) {
+                alert("CAPTCHA Passed! Click the button to claim Nitro.");
+                document.getElementById("claimButton").style.display = "block";
+            } else {
+                alert("CAPTCHA Failed! Try again.");
+                generateCaptcha();
+            }
+        }
+    </script>
+</head>
+<body onload="generateCaptcha()">
+    <div class="container">
+        <h2>Claim Your Free Nitro - 4-Level CAPTCHA</h2>
+        <p>Complete all 4 levels to unlock the button:</p>
+
+        <!-- Level 1: Text CAPTCHA -->
+        <p><strong>Level 1:</strong> Enter the following text:</p>
+        <div class="captcha-box" id="captchaText"></div>
+        <input type="text" id="captchaInput">
+
+        <!-- Level 2: Math CAPTCHA -->
+        <p><strong>Level 2:</strong> Solve this math problem:</p>
+        <div class="captcha-box" id="mathQuestion"></div>
+        <input type="text" id="mathAnswer">
+
+        <!-- Level 3: Case-Sensitive CAPTCHA -->
+        <p><strong>Level 3:</strong> Enter the exact uppercase text:</p>
+        <div class="captcha-box" id="caseCaptchaText"></div>
+        <input type="text" id="caseCaptchaInput">
+
+        <!-- Level 4: Slider CAPTCHA -->
+        <p><strong>Level 4:</strong> Move the slider **close to 50 (45-55 allowed)**:</p>
+        <input type="range" id="sliderCaptcha" min="0" max="100">
+
+        <br><br>
+        <button onclick="validateCaptcha()">Submit CAPTCHA</button>
+
+        <br><br>
+        <a id="claimButton" href="https://store.epicgames.com/en-US/p/discord--discord-nitro" target="_blank" style="display: none;">
+            <button>Claim Your Free Nitro</button>
+        </a>
+    </div>
+</body>
+</html>
